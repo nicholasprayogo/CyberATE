@@ -20,17 +20,25 @@ def add_context_to_dict(word_list, corpus_text_words, context_dict):
 
         # use all after or all before if not enough
         if len(context_before) < window_size:
-            # print("not enough before")
-            context_before = context_after
-            context_after = text[word_index+window_size+1:word_index+window_size+1+window_size]
+            print("not enough before")
+            n_tokens = window_size-len(context_before)
+            token = "<start>"
+            for i in range(n_tokens):
+                context_before.insert(0, token)
+            # print(context_before)
+            # input()
 
         elif len(context_after) < window_size:
-            # print("not enough after")
-            context_after = context_before
-            context_before = text[word_index-window_size*2:word_index-window_size]
+            print("not enough after")
+            n_tokens = window_size-len(context_after)
+            token = "<end>"
+            for i in range(n_tokens):
+                context_after.append(token)
+            # print(context_after)
+            # input()
 
         assert len(context_before) == window_size and len(context_after) == window_size
-
+        
         context_dict[word] = [context_before, context_after]
         # print(word)
         # print(context_before)
